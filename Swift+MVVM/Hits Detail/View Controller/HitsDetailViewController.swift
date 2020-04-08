@@ -32,7 +32,7 @@ class HitsDetailViewController: BaseViewController {
     
     fileprivate func setUpData() {
         titleLabel.text = viewModel?.title
-        createdAtDateLabel.text = viewModel?.date
+        createdAtDateLabel.text = DateExtension.changeDateformatterForString(fromDate: viewModel?.date ?? "", currentFormat: dateFormats.hitsResponseDate, with: dateFormats.hitsDisplayDate)
     }
     
 }

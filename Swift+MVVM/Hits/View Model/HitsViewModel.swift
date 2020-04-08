@@ -8,13 +8,31 @@
 
 import UIKit
 
-class HitsViewModel: BaseViewModel {
+class HitsViewModel {
+    
     var arrHits: [Hits] = []
+    var currentPageNumber: Int = 0
+    var totalPage: Int = 0
+    var isLoadMore: Bool = false
     
     func hitsApiCall(_ success: @escaping (_ isSuccess: Bool) -> Void, _ failure: @escaping (_ error: APICallError) -> Void) {
-        APIManager.shared.callRequest(model: ListModel.self, APIRouter.hitList(pageNum: 1), onSuccess: { (response) in
-            self.arrHits = response?.hits ?? []
-            success(true)
+        APIManager.shared.callRequest(model: ListModel.self, APIRouter.hitList(pageNum: currentPageNumber), onSuccess: { (response) in
+            if let hits = response?.hits {
+                    if self.currentPageNumber == 0 {
+                        self.arrHits.removeAll()
+                    }
+                    self.arrHits.append(contentsOf: hits)
+                    self.totalPage = response?.totalPages ?? 0
+                    
+                    if (self.currentPageNumber == (self.totalPage - 1)) {
+                        self.isLoadMore = false
+                    } else {
+                        self.isLoadMore = true
+                    }
+                    success(true)
+
+                }
+            
         }, onFailure: { (apiErrorResponse) in
             failure(apiErrorResponse)
         })

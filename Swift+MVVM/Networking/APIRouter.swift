@@ -29,7 +29,6 @@ enum APIRouter: URLRequestConvertible {
     // MARK: - HTTPMethod
     var method: HTTPMethod {
         switch self {
-            
         case .login:
             return .post
         case .hitList:
@@ -61,22 +60,13 @@ enum APIRouter: URLRequestConvertible {
     }
     
     func asURLRequest() throws -> URLRequest {
-//        let url = try Environment.APIBasePath().asURL()
-        
         var urlRequest = URLRequest(url: try path.asURL())
-        
         // HTTP Method
         urlRequest.httpMethod = method.rawValue
-        
         // Common Headers
         urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.acceptType.rawValue)
         urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
-        
-        //        if (Application.shared.userManager?.authenticationState == .signedIn) {
-        //            let token = "Bearer \(Application.shared.userManager?.authToken.value?.accessToken ?? "")"
-        //            urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
-        //        }
-        
+
         // Parameters
         if(method != .get) {
             if let parameters = parameters {

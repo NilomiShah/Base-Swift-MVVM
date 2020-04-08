@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HitsDetailViewModel: BaseViewModel {
+class HitsDetailViewModel {
     var title: String?
     var date: String?
     

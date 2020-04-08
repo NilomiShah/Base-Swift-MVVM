@@ -47,7 +47,7 @@ class APIManager {
                 let apiError = APICallError(status: .offline)
                 failure(apiError)
                 return
-            }
+            }        
         self.sessionManager.request(router).response { response  in
                         
                         switch response.result {

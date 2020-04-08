@@ -17,6 +17,8 @@ enum dateFormats {
     case snapFormat
     case weekDayName
     
+    case hitsResponseDate
+    case hitsDisplayDate
 
     var text:String{
         
@@ -35,6 +37,10 @@ enum dateFormats {
             return "hh:mm a"
         case .weekDayName:
             return "EEEE"
+        case .hitsResponseDate:
+            return "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        case .hitsDisplayDate:
+            return "E, dd MMMM yyyy HH:mm:ss a"
         }
     }
 }
@@ -79,6 +85,13 @@ struct DateExtension {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone.current
         return formatter.string(from: date)
+    }
+    
+    static func changeDateformatterForString(fromDate dateString: String, currentFormat: dateFormats, with format: dateFormats) -> String {
+        if let date = self.date(fromString: dateString, withFormat: currentFormat) {
+            return string(fromDate: date, withFormat: format)
+        }
+        return ""
     }
     
 }

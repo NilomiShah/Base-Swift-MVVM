@@ -19,7 +19,7 @@ class HitsTableViewCell: UITableViewCell {
         didSet {
             if let hit = hit {
                 self.labelTitle.text = hit.title ?? ""
-                self.labelDate.text = hit.createdAt ?? ""
+                self.labelDate.text = DateExtension.changeDateformatterForString(fromDate: hit.createdAt ?? "", currentFormat: dateFormats.hitsResponseDate, with: dateFormats.hitsDisplayDate)
                 self.switchToggle.isOn = hit.isSelected
             }
         }

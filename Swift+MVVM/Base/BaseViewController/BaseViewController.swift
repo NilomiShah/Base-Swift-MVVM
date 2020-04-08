@@ -19,11 +19,13 @@ class BaseViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
+    
     @objc func popViewController() {
         if let navController = self.navigationController {
             navController.popViewController(animated: true)
         }
     }
+    
     func backButton() {
         self.navigationItem.leftBarButtonItem =  UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(popViewController))
     }

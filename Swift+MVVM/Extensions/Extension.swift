@@ -6,7 +6,7 @@ extension UIApplication {
     
     var screenShot: UIImage?  {
         
-        if let rootViewController = Constants.keyWindow?.rootViewController {
+        if let rootViewController = Constants.KeyWindow?.rootViewController {
             let scale = UIScreen.main.scale
             let bounds = rootViewController.view.bounds
             UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale);
@@ -24,20 +24,7 @@ extension UIApplication {
 // MARK: - Button Navigation Bar
 
 extension UIViewController {
-//    func backButton(){
-//        let BackImage = UIButton(type: .custom)
-//        BackImage.setImage(#imageLiteral(resourceName: "back"), for: .normal)
-//        BackImage.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        BackImage.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
-//        let item = UIBarButtonItem(customView: BackImage)
-//        self.navigationItem.leftBarButtonItem = item
-//    }
-//    @objc func popViewController() {
-////        navigationController?.navigationBar.backItem?.title = ""
-//        if let navController = self.navigationController {
-//            navController.popViewController(animated: true)
-//        }
-//    }
+
     func navButtonWithImg(_ img : UIImage ,selector : Selector , isLeft : Bool) {
         let btn = UIButton(type: .system)
         btn.setImage(img, for: .normal)
@@ -71,7 +58,7 @@ extension UIApplication {
     public class func topViewController(_ base: UIViewController? = UIApplication.shared.windows.first?.rootViewController) -> UIViewController? {
         var base = base
         if base == nil {
-          base = Constants.keyWindow?.rootViewController
+          base = Constants.KeyWindow?.rootViewController
         }
         if let nav = base as? UINavigationController {
             return topViewController(nav.visibleViewController)
@@ -724,19 +711,7 @@ public extension UIViewController {
     }
     
 }
-//public extension UIDatePicker {
-//
-//    /// : Text color of UIDatePicker.
-//    public var textColor: UIColor? {
-//        set {
-//            setValue(newValue, forKeyPath: "textColor")
-//        }
-//        get {
-//            return value(forKeyPath: "textColor") as? UIColor
-//        }
-//    }
-//
-//}
+
 @IBDesignable
 extension UIDatePicker {
     @IBInspectable var textLabelColor: UIColor? {
@@ -792,7 +767,6 @@ public extension CLLocation {
     ///   - destination: Location to calculate bearing.
     /// - Returns: Calculated bearing degrees in the range 0° ... 360°
     func bearing(to destination: CLLocation) -> Double {
-        //http://stackoverflow.com/questions/3925942/cllocation-category-for-calculating-bearing-w-haversine-function
         let lat1 = Double.pi * coordinate.latitude / 180.0
         let long1 = Double.pi * coordinate.longitude / 180.0
         let lat2 = Double.pi * destination.coordinate.latitude / 180.0

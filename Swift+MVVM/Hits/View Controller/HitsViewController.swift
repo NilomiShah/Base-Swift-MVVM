@@ -13,6 +13,13 @@ class HitsViewController: BaseViewController {
     var viewModel = HitsViewModel()
     @IBOutlet private weak var tableViewList: UITableView!
 
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged)
+        refreshControl.tintColor = UIColor.gray
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -26,6 +33,7 @@ class HitsViewController: BaseViewController {
     private func setUpUI() {
         self.tableViewList.register(UINib(nibName: String(describing: HitsTableViewCell.self) , bundle: nil), forCellReuseIdentifier: String(describing: HitsTableViewCell.self))
         tableViewList.tableFooterView = UIView()
+        tableViewList.refreshControl = refreshControl
         setTitle()
     }
     
@@ -39,6 +47,13 @@ class HitsViewController: BaseViewController {
     
     private func setTitle() {
         self.title = self.viewModel.setTitle()
+    }
+    
+    //MARK: Refresh
+    @objc func handleRefresh() {
+        self.viewModel.currentPageNumber = 0
+        self.setUpData()
+        self.refreshControl.endRefreshing()
     }
 }
 
@@ -67,4 +82,12 @@ extension HitsViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(hitsDetailViewController)
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if ((indexPath.row == self.viewModel.arrHits.count - 1) && self.viewModel.isLoadMore && refreshControl.isRefreshing == false && indexPath.section == 0)  {
+            self.viewModel.currentPageNumber += 1
+            if self.viewModel.currentPageNumber < self.viewModel.totalPage {
+                self.setUpData()
+            }
+        }
+    }
 }
