@@ -39,6 +39,7 @@ class HitsViewController: BaseViewController {
     
     private func setUpData() {
         viewModel.hitsApiCall({ (isSuccess) in
+            self.refreshControl.endRefreshing()
             self.tableViewList.reloadData()
         }, { (error) in
             self.showErrorAlert(error)
@@ -53,7 +54,6 @@ class HitsViewController: BaseViewController {
     @objc func handleRefresh() {
         self.viewModel.currentPageNumber = 0
         self.setUpData()
-        self.refreshControl.endRefreshing()
     }
 }
 
